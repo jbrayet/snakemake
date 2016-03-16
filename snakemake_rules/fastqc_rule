@@ -1,0 +1,15 @@
+rule fastqc:
+    input:
+        r1="{output_path}/{sample}/{sample}.{group}.fastq.gz",
+        r2="{output_path}/{sample}"
+    output:
+        "{output_path}/{sample}/{sample}.{group}_fastqc.zip"
+    log:
+        "{output_path}/{sample}/logs/{sample}.{group}_fastqc.log"
+    params:
+        fastqc_path=config["fastqc"]["FASTQC_BIN_DIR"]
+    shell:
+        "{params.fastqc_path}fastqc -q -o {input.r2} {input.r1} 2> {log}"
+
+
+

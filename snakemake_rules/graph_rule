@@ -1,0 +1,11 @@
+rule graph:
+    output:
+        r1="{output_path}/graph.svg"
+#        r2="{output_path}/graph.png"
+    params:
+        snakefile=config["graph"]["SNAKEFILE"]
+    shell:
+        "snakemake -s {params.snakefile} --dag | dot -Tsvg > {output.r1}"
+#        "snakemake -s {params.snakefile} --dag | dot -Tpng > {output.r2}"
+
+

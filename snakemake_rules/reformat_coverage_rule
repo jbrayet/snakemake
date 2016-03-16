@@ -1,0 +1,16 @@
+rule reformat_coverage:
+    input:
+        r1="{output_path}/{sample}/{sample}_coverage.txt"
+    output:
+        "{output_path}/{sample}/{sample}.coverage.stats.txt"
+    log:
+        "{output_path}/{sample}/logs/{sample}_reformat_coverage.log"
+    params:
+        scripts_path=config["general_path"]["SCRIPT_PATH"],
+        bed_file=config["gatk"]["BED_FILE"]
+    run:
+        if params.bed_file != "":
+            shell("perl {params.scripts_path}reformatCoverage.pl -i {input} -s solid -b {params.bed_file} -o {output} 2> {log}")
+        else:
+            shell("perl {params.scripts_path}reformatCoverage.pl -i {input} -s solid -o {output} 2>{log}")
+

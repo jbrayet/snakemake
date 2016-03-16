@@ -1,0 +1,339 @@
+STAR version=STAR_2.5.1b
+STAR compilation time,server,dir=Fri Jan 22 14:36:39 EST 2016 florence.cshl.edu:/sonas-hs/gingeras/nlsas_norepl/user/dobin/STAR/STAR.sandbox/source
+##### DEFAULT parameters:
+versionSTAR                       20201
+versionGenome                     20101   20200   
+parametersFiles                   -   
+sysShell                          -
+runMode                           alignReads
+runThreadN                        1
+runDirPerm                        User_RWX
+runRNGseed                        777
+genomeDir                         ./GenomeDir/
+genomeLoad                        NoSharedMemory
+genomeFastaFiles                  -   
+genomeSAindexNbases               14
+genomeChrBinNbits                 18
+genomeSAsparseD                   1
+genomeSuffixLengthMax             18446744073709551615
+readFilesIn                       Read1   Read2   
+readFilesCommand                  -   
+readMatesLengthsIn                NotEqual
+readMapNumber                     18446744073709551615
+readNameSeparator                 /   
+inputBAMfile                      -
+bamRemoveDuplicatesType           -
+bamRemoveDuplicatesMate2basesN    0
+limitGenomeGenerateRAM            31000000000
+limitIObufferSize                 150000000
+limitOutSAMoneReadBytes           100000
+limitOutSJcollapsed               1000000
+limitOutSJoneRead                 1000
+limitBAMsortRAM                   0
+limitSjdbInsertNsj                1000000
+outFileNamePrefix                 ./
+outTmpDir                         -
+outStd                            Log
+outReadsUnmapped                  None
+outQSconversionAdd                0
+outMultimapperOrder               Old_2.4
+outSAMtype                        SAM   
+outSAMmode                        Full
+outSAMstrandField                 None
+outSAMattributes                  Standard   
+outSAMunmapped                    None   
+outSAMorder                       Paired
+outSAMprimaryFlag                 OneBestScore
+outSAMreadID                      Standard
+outSAMmapqUnique                  255
+outSAMflagOR                      0
+outSAMflagAND                     65535
+outSAMattrRGline                  -   
+outSAMheaderHD                    -   
+outSAMheaderPG                    -   
+outSAMheaderCommentFile           -
+outBAMcompression                 1
+outBAMsortingThreadN              0
+outSAMfilter                      None   
+outSAMmultNmax                    18446744073709551615
+outSAMattrIHstart                 1
+outSJfilterReads                  All
+outSJfilterCountUniqueMin         3   1   1   1   
+outSJfilterCountTotalMin          3   1   1   1   
+outSJfilterOverhangMin            30   12   12   12   
+outSJfilterDistToOtherSJmin       10   0   5   10   
+outSJfilterIntronMaxVsReadN       50000   100000   200000   
+outWigType                        None   
+outWigStrand                      Stranded   
+outWigReferencesPrefix            -
+outWigNorm                        RPM   
+outFilterType                     Normal
+outFilterMultimapNmax             10
+outFilterMultimapScoreRange       1
+outFilterScoreMin                 0
+outFilterScoreMinOverLread        0.66
+outFilterMatchNmin                0
+outFilterMatchNminOverLread       0.66
+outFilterMismatchNmax             10
+outFilterMismatchNoverLmax        0.3
+outFilterMismatchNoverReadLmax    1
+outFilterIntronMotifs             None
+clip5pNbases                      0   
+clip3pNbases                      0   
+clip3pAfterAdapterNbases          0   
+clip3pAdapterSeq                  -   
+clip3pAdapterMMp                  0.1   
+winBinNbits                       16
+winAnchorDistNbins                9
+winFlankNbins                     4
+winAnchorMultimapNmax             50
+scoreGap                          0
+scoreGapNoncan                    -8
+scoreGapGCAG                      -4
+scoreGapATAC                      -8
+scoreStitchSJshift                1
+scoreGenomicLengthLog2scale       -0.25
+scoreDelBase                      -2
+scoreDelOpen                      -2
+scoreInsOpen                      -2
+scoreInsBase                      -2
+seedSearchLmax                    0
+seedSearchStartLmax               50
+seedSearchStartLmaxOverLread      1
+seedPerReadNmax                   1000
+seedPerWindowNmax                 50
+seedNoneLociPerWindow             10
+seedMultimapNmax                  10000
+alignIntronMin                    21
+alignIntronMax                    0
+alignMatesGapMax                  0
+alignTranscriptsPerReadNmax       10000
+alignSJoverhangMin                5
+alignSJDBoverhangMin              3
+alignSJstitchMismatchNmax         0   -1   0   0   
+alignSplicedMateMapLmin           0
+alignSplicedMateMapLminOverLmate    0.66
+alignWindowsPerReadNmax           10000
+alignTranscriptsPerWindowNmax     100
+alignEndsType                     Local
+alignSoftClipAtReferenceEnds      Yes
+chimSegmentMin                    0
+chimScoreMin                      0
+chimScoreDropMax                  20
+chimScoreSeparation               10
+chimScoreJunctionNonGTAG          -1
+chimJunctionOverhangMin           20
+chimOutType                       SeparateSAMold
+chimFilter                        banGenomicN   
+chimSegmentReadGapMax             0
+sjdbFileChrStartEnd               -   
+sjdbGTFfile                       -
+sjdbGTFchrPrefix                  -
+sjdbGTFfeatureExon                exon
+sjdbGTFtagExonParentTranscript    transcript_id
+sjdbGTFtagExonParentGene          gene_id
+sjdbOverhang                      100
+sjdbScore                         2
+sjdbInsertSave                    Basic
+quantMode                         -   
+quantTranscriptomeBAMcompression    1
+quantTranscriptomeBan             IndelSoftclipSingleend
+twopass1readsN                    18446744073709551615
+twopassMode                       None
+##### Command Line:
+STAR --limitGenomeGenerateRAM 7500000000 --runThreadN 8 --runMode genomeGenerate --genomeDir /root/mydisk/rna_annotations/ --genomeFastaFiles /root/mydisk/rna_annotations/mm9.fa --sjdbGTFfile /root/mydisk/rna_annotations/gencode.v19.annotation.gtf --sjdbOverhang 100
+##### Initial USER parameters from Command Line:
+###### All USER parameters from Command Line:
+limitGenomeGenerateRAM        7500000000     ~RE-DEFINED
+runThreadN                    8     ~RE-DEFINED
+runMode                       genomeGenerate     ~RE-DEFINED
+genomeDir                     /root/mydisk/rna_annotations/     ~RE-DEFINED
+genomeFastaFiles              /root/mydisk/rna_annotations/mm9.fa        ~RE-DEFINED
+sjdbGTFfile                   /root/mydisk/rna_annotations/gencode.v19.annotation.gtf     ~RE-DEFINED
+sjdbOverhang                  100     ~RE-DEFINED
+##### Finished reading parameters from all sources
+
+##### Final user re-defined parameters-----------------:
+runMode                           genomeGenerate
+runThreadN                        8
+genomeDir                         /root/mydisk/rna_annotations/
+genomeFastaFiles                  /root/mydisk/rna_annotations/mm9.fa   
+limitGenomeGenerateRAM            7500000000
+sjdbGTFfile                       /root/mydisk/rna_annotations/gencode.v19.annotation.gtf
+sjdbOverhang                      100
+
+-------------------------------
+##### Final effective command line:
+STAR   --runMode genomeGenerate   --runThreadN 8   --genomeDir /root/mydisk/rna_annotations/   --genomeFastaFiles /root/mydisk/rna_annotations/mm9.fa      --limitGenomeGenerateRAM 7500000000   --sjdbGTFfile /root/mydisk/rna_annotations/gencode.v19.annotation.gtf   --sjdbOverhang 100
+
+##### Final parameters after user input--------------------------------:
+versionSTAR                       20201
+versionGenome                     20101   20200   
+parametersFiles                   -   
+sysShell                          -
+runMode                           genomeGenerate
+runThreadN                        8
+runDirPerm                        User_RWX
+runRNGseed                        777
+genomeDir                         /root/mydisk/rna_annotations/
+genomeLoad                        NoSharedMemory
+genomeFastaFiles                  /root/mydisk/rna_annotations/mm9.fa   
+genomeSAindexNbases               14
+genomeChrBinNbits                 18
+genomeSAsparseD                   1
+genomeSuffixLengthMax             18446744073709551615
+readFilesIn                       Read1   Read2   
+readFilesCommand                  -   
+readMatesLengthsIn                NotEqual
+readMapNumber                     18446744073709551615
+readNameSeparator                 /   
+inputBAMfile                      -
+bamRemoveDuplicatesType           -
+bamRemoveDuplicatesMate2basesN    0
+limitGenomeGenerateRAM            7500000000
+limitIObufferSize                 150000000
+limitOutSAMoneReadBytes           100000
+limitOutSJcollapsed               1000000
+limitOutSJoneRead                 1000
+limitBAMsortRAM                   0
+limitSjdbInsertNsj                1000000
+outFileNamePrefix                 ./
+outTmpDir                         -
+outStd                            Log
+outReadsUnmapped                  None
+outQSconversionAdd                0
+outMultimapperOrder               Old_2.4
+outSAMtype                        SAM   
+outSAMmode                        Full
+outSAMstrandField                 None
+outSAMattributes                  Standard   
+outSAMunmapped                    None   
+outSAMorder                       Paired
+outSAMprimaryFlag                 OneBestScore
+outSAMreadID                      Standard
+outSAMmapqUnique                  255
+outSAMflagOR                      0
+outSAMflagAND                     65535
+outSAMattrRGline                  -   
+outSAMheaderHD                    -   
+outSAMheaderPG                    -   
+outSAMheaderCommentFile           -
+outBAMcompression                 1
+outBAMsortingThreadN              0
+outSAMfilter                      None   
+outSAMmultNmax                    18446744073709551615
+outSAMattrIHstart                 1
+outSJfilterReads                  All
+outSJfilterCountUniqueMin         3   1   1   1   
+outSJfilterCountTotalMin          3   1   1   1   
+outSJfilterOverhangMin            30   12   12   12   
+outSJfilterDistToOtherSJmin       10   0   5   10   
+outSJfilterIntronMaxVsReadN       50000   100000   200000   
+outWigType                        None   
+outWigStrand                      Stranded   
+outWigReferencesPrefix            -
+outWigNorm                        RPM   
+outFilterType                     Normal
+outFilterMultimapNmax             10
+outFilterMultimapScoreRange       1
+outFilterScoreMin                 0
+outFilterScoreMinOverLread        0.66
+outFilterMatchNmin                0
+outFilterMatchNminOverLread       0.66
+outFilterMismatchNmax             10
+outFilterMismatchNoverLmax        0.3
+outFilterMismatchNoverReadLmax    1
+outFilterIntronMotifs             None
+clip5pNbases                      0   
+clip3pNbases                      0   
+clip3pAfterAdapterNbases          0   
+clip3pAdapterSeq                  -   
+clip3pAdapterMMp                  0.1   
+winBinNbits                       16
+winAnchorDistNbins                9
+winFlankNbins                     4
+winAnchorMultimapNmax             50
+scoreGap                          0
+scoreGapNoncan                    -8
+scoreGapGCAG                      -4
+scoreGapATAC                      -8
+scoreStitchSJshift                1
+scoreGenomicLengthLog2scale       -0.25
+scoreDelBase                      -2
+scoreDelOpen                      -2
+scoreInsOpen                      -2
+scoreInsBase                      -2
+seedSearchLmax                    0
+seedSearchStartLmax               50
+seedSearchStartLmaxOverLread      1
+seedPerReadNmax                   1000
+seedPerWindowNmax                 50
+seedNoneLociPerWindow             10
+seedMultimapNmax                  10000
+alignIntronMin                    21
+alignIntronMax                    0
+alignMatesGapMax                  0
+alignTranscriptsPerReadNmax       10000
+alignSJoverhangMin                5
+alignSJDBoverhangMin              3
+alignSJstitchMismatchNmax         0   -1   0   0   
+alignSplicedMateMapLmin           0
+alignSplicedMateMapLminOverLmate    0.66
+alignWindowsPerReadNmax           10000
+alignTranscriptsPerWindowNmax     100
+alignEndsType                     Local
+alignSoftClipAtReferenceEnds      Yes
+chimSegmentMin                    0
+chimScoreMin                      0
+chimScoreDropMax                  20
+chimScoreSeparation               10
+chimScoreJunctionNonGTAG          -1
+chimJunctionOverhangMin           20
+chimOutType                       SeparateSAMold
+chimFilter                        banGenomicN   
+chimSegmentReadGapMax             0
+sjdbFileChrStartEnd               -   
+sjdbGTFfile                       /root/mydisk/rna_annotations/gencode.v19.annotation.gtf
+sjdbGTFchrPrefix                  -
+sjdbGTFfeatureExon                exon
+sjdbGTFtagExonParentTranscript    transcript_id
+sjdbGTFtagExonParentGene          gene_id
+sjdbOverhang                      100
+sjdbScore                         2
+sjdbInsertSave                    Basic
+quantMode                         -   
+quantTranscriptomeBAMcompression    1
+quantTranscriptomeBan             IndelSoftclipSingleend
+twopass1readsN                    18446744073709551615
+twopassMode                       None
+----------------------------------------
+
+Finished loading and checking parameters
+Mar 16 15:30:18 ... Starting to generate Genome files
+/root/mydisk/rna_annotations/mm9.fa : chr # 0  "chr1" chrStart: 0
+/root/mydisk/rna_annotations/mm9.fa : chr # 1  "chr2" chrStart: 197394432
+/root/mydisk/rna_annotations/mm9.fa : chr # 2  "chr3" chrStart: 379322368
+/root/mydisk/rna_annotations/mm9.fa : chr # 3  "chr4" chrStart: 538968064
+/root/mydisk/rna_annotations/mm9.fa : chr # 4  "chr5" chrStart: 694681600
+/root/mydisk/rna_annotations/mm9.fa : chr # 5  "chr6" chrStart: 847249408
+/root/mydisk/rna_annotations/mm9.fa : chr # 6  "chr7" chrStart: 996933632
+/root/mydisk/rna_annotations/mm9.fa : chr # 7  "chr8" chrStart: 1149501440
+/root/mydisk/rna_annotations/mm9.fa : chr # 8  "chr9" chrStart: 1281359872
+/root/mydisk/rna_annotations/mm9.fa : chr # 9  "chr10" chrStart: 1405616128
+/root/mydisk/rna_annotations/mm9.fa : chr # 10  "chr11" chrStart: 1535639552
+/root/mydisk/rna_annotations/mm9.fa : chr # 11  "chr12" chrStart: 1657536512
+/root/mydisk/rna_annotations/mm9.fa : chr # 12  "chr13" chrStart: 1778909184
+/root/mydisk/rna_annotations/mm9.fa : chr # 13  "chr14" chrStart: 1899233280
+/root/mydisk/rna_annotations/mm9.fa : chr # 14  "chr15" chrStart: 2024538112
+/root/mydisk/rna_annotations/mm9.fa : chr # 15  "chr16" chrStart: 2128084992
+/root/mydisk/rna_annotations/mm9.fa : chr # 16  "chr17" chrStart: 2226651136
+/root/mydisk/rna_annotations/mm9.fa : chr # 17  "chr18" chrStart: 2322071552
+/root/mydisk/rna_annotations/mm9.fa : chr # 18  "chr19" chrStart: 2413035520
+/root/mydisk/rna_annotations/mm9.fa : chr # 19  "chrX" chrStart: 2474639360
+/root/mydisk/rna_annotations/mm9.fa : chr # 20  "chrY" chrStart: 2641362944
+/root/mydisk/rna_annotations/mm9.fa : chr # 21  "chrM" chrStart: 2657353728
+Number of SA indices: 5117051558
+Mar 16 15:31:13 ... starting to sort  Suffix Array. This may take a long time...
+Number of chunks: 257;   chunks size limit: 163856112 bytes
+Mar 16 15:31:26 ... sorting Suffix Array chunks and saving them to disk...
+Writing 296 bytes into /root/mydisk/rna_annotations//SA_4 ; empty space on disk = 14264709120 bytes ... done

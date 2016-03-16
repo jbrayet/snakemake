@@ -1,0 +1,32 @@
+rule curie_report:
+    input:
+        r1="{output_path}/{sample}/{sample}.coverage.stats.txt",
+        r2="{output_path}/{sample}/{sample}.R1_fastqc.zip",
+        r3="{output_path}/{sample}/{sample}.R2_fastqc.zip",
+        r4="{output_path}/{sample}/{sample}.stats.txt"
+    output:
+        "{output_path}/{sample}/{sample}--NGS-RunReport.pdf"
+    log:
+        "{output_path}/{sample}/logs/{sample}_curie_report.log" 
+    params:
+        scripts_path=config["general_path"]["SCRIPT_PATH"],
+        sample=lambda wildcards: config["samples"][wildcards.sample],
+        biosample="",
+        library_done_by=config["curie_report"]["LIBRARY_DONE_BY"],
+        sequencing_done_by=config["curie_report"]["SEQUENCING_DONE_BY"],
+        project_leader=config["curie_report"]["PROJECT_LEADER"],
+        read_length=config["curie_report"]["READ_LENGTH"],
+        run_date=config["curie_report"]["RUN_DATE"],
+        species=config["curie_report"]["SPECIES"],
+        species_build=config["curie_report"]["SPECIES_BUILD"],
+        output_path=config["general_path"]["OUTPUT_PATH"],
+        markdup=config["curie_report"]["MARKDUP"],
+        input_path=config["general_path"]["INPUT_PATH"],
+        rna_library_type=config["tophat2"]["RNA_LIBRARY_TYPE"],
+        mm_rna=config["tophat2"]["MM_RNA"]
+    run:
+      #  shell("ln -sf {input.r4} {params.output_path}/{params.sample}/{params.sample}.stats.txt 2> {log}")
+        shell("unzip -o {input.r2} -d {params.output_path}/{params.sample} 1> {log} 2> {log}")
+        shell("unzip -o {input.r3} -d {params.output_path}/{params.sample} 1> {log} 2> {log}")
+      #  shell("ln -sf {input.r1} {params.output_path}/{params.sample}/{params.sample}.coverage.stats.txt 2> {log}")
+        shell("bash {params.scripts_path}curie_runReport.sh -n \"{params.biosample}\" -h U900 -q \"RNA-SEQUENCING\" -l \"{params.library_done_by}\" -s \"{params.sequencing_done_by}\" -m \"Alban Lermine - Vivien Deshaies - Jocelyn Brayet\" -t \"PairedEnd\" -p \"{params.project_leader}\" -r \"{params.read_length}x{params.read_length}bp\" -v \"Illumina HiSeq 2500\" -i \"Fragment PE\" -d \"{params.run_date}\" -e \"{params.species}\" -a \"{params.species_build}\" -o {params.output_path}/{params.sample} -c {input.r1} -2 TOPHAT -4 \"{params.markdup}\" -5 \"{params.input_path}\" -6 \"{params.rna_library_type}\" -7 \"rna\" -b \"{params.mm_rna}\" 2> {log}")

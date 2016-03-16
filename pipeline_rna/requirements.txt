@@ -1,0 +1,13 @@
+# This file may be used to create an environment using:
+# $ conda create --name snakemake-tutorial -c bioconda --file <this file>
+tophat=2.1.0
+graphviz=2.38.0
+python=3.5.1
+samtools=1.2
+snakemake=3.5.5
+pyyaml=3.11
+fastqc=0.11.4
+cutadapt=1.9.1
+picard=1.126
+bedtools=2.25.0
+star=2.5.1b

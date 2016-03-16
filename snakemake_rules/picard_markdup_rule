@@ -1,0 +1,16 @@
+rule picard_markdup:
+    input:
+        "{output_path}/{sample}/{sample}.mapped.markdup.bam"
+    output:
+        r1="{output_path}/{sample}/{sample}.duplicates.bam",
+        r2="{output_path}/{sample}/{sample}.metrics",
+        r3="{output_path}/{sample}/{sample}.mapped.bam"
+    log:
+        "{output_path}/{sample}/logs/{sample}_picard_markdup.log"
+    params:
+        picard_path=config["picard"]["PICARD_TOOLS_BIN_DIR"]
+    shell:
+        "{params.picard_path}picard MarkDuplicates I={input} O={output.r1} REMOVE_DUPLICATES=false M={output.r2} VALIDATION_STRINGENCY=LENIENT 2>{log} && "
+        "rm {input} && cp {output.r1} {output.r3}"
+
+

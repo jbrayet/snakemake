@@ -1,0 +1,21 @@
+rule gatk:
+    input:
+        r1="{output_path}/{sample}/{sample}.mapped.bam",
+        r2="{output_path}/{sample}/{sample}.mapped.bam.bai"
+    output:
+        "{output_path}/{sample}/{sample}_coverage.txt"
+    log:
+        "{output_path}/{sample}/logs/{sample}_gatk.log"
+    params:
+        gatk_path=config["gatk"]["GATK_BIN_DIR"],
+        fasta_reference=config["gatk"]["FASTA_REFERENCE"],
+        bed_file=config["gatk"]["BED_FILE"]
+    run:
+        if params.bed_file != "":
+            shell("java -jar {params.gatk_path}GenomeAnalysisTK.jar -R {params.fasta_reference} -o {output} -L {params.bed_file} -I {input.r1} -T DepthOfCoverage --minMappingQuality 20 -omitLocusTable -omitIntervals -omitBaseOutput -ct 1 -ct 5 -ct 20 -ct 50 -ct 100 --stop 1000 --filter_reads_with_N_cigar 2> {log}")
+        else:
+            shell("java -jar {params.gatk_path}GenomeAnalysisTK.jar -R {params.fasta_reference} -o {output} -I {input.r1} -T DepthOfCoverage --minMappingQuality 20 -omitLocusTable -omitIntervals -omitBaseOutput -ct 1 -ct 5 -ct 20 -ct 50 -ct 100 --stop 1000 --filter_reads_with_N_cigar 2> {log}")
+        shell("mv {output}.sample_summary {output}")
+
+
+

@@ -1,0 +1,87 @@
+description: |
+    This config file is designed to run rna pipeline.
+
+author: "Jocelyn Brayet"
+
+samples:
+    B99T1: "B99T1"
+    B99T2: "B99T2"
+
+biosamples:
+    B99T1: "biosample1"
+    B99T2: "biosample2"
+
+group:
+    R1: "R1"
+    R2: "R2"
+
+general_path:
+    INPUT_PATH: "/ifb/input_rna_pipeline"
+    OUTPUT_PATH: "/ifb/results_rna_pipeline"
+    RULE_PATH: "/ifb/snakemake_rules"
+    SCRIPT_PATH: "/ifb/alban_scripts/"
+
+graph:
+    SNAKEFILE: "/ifb/pipeline_rna/snakefile_rna_pipeline"
+
+fastqc:
+    FASTQC_BIN_DIR: ""
+
+trim_galore:
+    CUTADAPT_BIN_DIR: ""
+    TRIMGALORE_BIN_DIR: "/ifb/trimGalore/"
+
+aligment:
+    TOOL: "star"
+
+tophat2:
+    TOPHAT2_BIN_DIR: "/ifb/tophat-2.1.1/src/"
+    RG_LIBRARY: "Illumina"
+    BOWTIE2_REFERENCE_ROOT: "/root/mydisk/rna_annotations/mm9"
+    MAXHITS: "1"
+    MM_RNA: "3"
+    INSERTSIZE: "150"
+    ECART_TYPE: "80"
+    GTF_FILE: ""
+    G_OPTION: "2"
+    RNA_LIBRARY_TYPE: "fr-firststrand"
+
+star:
+    STAR_BIN_DIR: ""
+    LIMIT_GENOME_GENERATE_RAM: "7500000000"
+    GENOME_FASTA_FILE: "/root/mydisk/rna_annotations/mm9.fa"
+    RUN_THREADN: "8"
+    RUN_MODE: "genomeGenerate"
+    GENOME_DIR: "/root/mydisk/rna_annotations"
+    SJDB_GTF_FILE: "/root/mydisk/rna_annotations/gencode.v19.annotation.gtf"
+    SJDB_OVERHANG: "100"
+    OUT_FILTER_MULTIMAP_NMAX: "2"
+    READ_FILES_COMMAND: "zcat"
+    QUANT_MODE: "GeneCounts"
+
+gatk:
+    GATK_BIN_DIR: "/ifb/GATK/"
+    BED_FILE: ""
+    FASTA_REFERENCE: "/root/mydisk/rna_annotations/mm9.fa"
+
+samtools:
+    SAMTOOLS_BIN_DIR: ""
+
+picard:
+    MARKDUP: "yes"
+    PICARD_TOOLS_BIN_DIR: ""
+
+bedtools:
+    BEDTOOLS_BIN_DIR: ""
+
+curie_report:
+    LIBRARY_DONE_BY: "Alban"
+    SEQUENCING_DONE_BY: "Jocelyn"
+    PROJECT_LEADER: "Jocelyn"
+    RUN_DATE: "16-03-2016"
+    SPECIES: "Mouse"
+    SPECIES_BUILD: "mm9"
+    READ_LENGTH: "100"
+    MARKDUP: "yes"
+
+

@@ -1,0 +1,13 @@
+rule samtools_merge:
+    input:
+        r1="{output_path}/{sample}/{sample}.mapped.bam",
+        r2="{output_path}/{sample}/{sample}.unmapped.bam"
+    output:
+        "{output_path}/{sample}/{sample}.bam"
+    log:
+        "{output_path}/{sample}/logs/{sample}_samtools_merge.log"
+    params:
+        samtools_path=config["samtools"]["SAMTOOLS_BIN_DIR"]
+    shell:
+        "{params.samtools_path}samtools merge -f -r {output} {input.r1} {input.r2} 2> {log}"
+

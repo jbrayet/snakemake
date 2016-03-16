@@ -1,0 +1,28 @@
+rule trim_galore:
+    input: 
+        i1="{sample}.R1.fastq.gz",
+        i2="{sample}.R2.fastq.gz",
+#        i3=config["samples"]
+#        i3="{sample}"
+#        i3=lambda wildcards: config["samples"][wildcards.sample]
+    output:
+        o1="{output_path}/{sample}",
+        o2="{output_path}/{sample}/{sample}.R1.fastq.gz",
+        o3="{output_path}/{sample}/{sample}.R2.fastq.gz"
+    log:
+        "{output_path}/{sample}/logs/{sample}_trim_galore.log"
+    params:
+        cutadap_path=config["trim_galore"]["CUTADAPT_BIN_DIR"],
+        trim_galore_path=config["trim_galore"]["TRIMGALORE_BIN_DIR"],
+        sample=lambda wildcards: config["samples"][wildcards.sample]
+    run:
+#        import os
+        shell("{params.trim_galore_path}trim_galore --path_to_cutadapt {params.cutadap_path}cutadapt -q 0 -o {output.o1} --paired {input.i1} {input.i2} 2> {log}")
+#        print({params.sample})
+#        for sample in {params.sample}.split():
+#        sample=os.basename({output.o1})
+        print({params.sample})
+        shell("mv {output.o1}/{params.sample}.R1_val_1.fq.gz {output.o2}")
+        shell("mv {output.o1}/{params.sample}.R2_val_2.fq.gz {output.o3}")
+
+
