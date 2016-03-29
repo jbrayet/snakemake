@@ -8,7 +8,7 @@ rule tophat2_and_markdup:
         r3="{output_path}/{sample}/{sample}.unmapped.bam",
         r4="{output_path}/{sample}/{sample}.deletions.bed",
         r5="{output_path}/{sample}/{sample}.insertions.bed",
-        r6="{output_path}/{sample}//{sample}.junctions.bed"
+        r6="{output_path}/{sample}/{sample}.junctions.bed"
     log:
         "{output_path}/{sample}/logs/{sample}_tophat2.log"
     params:

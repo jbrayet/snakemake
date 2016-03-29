@@ -1,11 +1,12 @@
 rule reformat_coverage:
     input:
-        r1="{output_path}/{sample}/{sample}_coverage.txt"
+        "{output_path}/{sample}/{sample}_coverage.txt"
     output:
         "{output_path}/{sample}/{sample}.coverage.stats.txt"
     log:
         "{output_path}/{sample}/logs/{sample}_reformat_coverage.log"
     params:
+        cluster="-q batch -N snakemake_reformat_coverage -l nodes=1:ppn=1,mem=1Gb",
         scripts_path=config["general_path"]["SCRIPT_PATH"],
         bed_file=config["gatk"]["BED_FILE"]
     run:

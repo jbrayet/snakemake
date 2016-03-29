@@ -16,28 +16,29 @@ group:
     R2: "R2"
 
 general_path:
-    INPUT_PATH: "/ifb/input_rna_pipeline"
-    OUTPUT_PATH: "/ifb/results_rna_pipeline"
-    RULE_PATH: "/ifb/snakemake_rules"
-    SCRIPT_PATH: "/ifb/alban_scripts/"
+    INPUT_PATH: "/bioinfo/users/jbrayet/snakemake/input_rna_pipeline"
+    OUTPUT_PATH: "/bioinfo/users/jbrayet/snakemake/results_rna_pipeline"
+    RULE_PATH: "/bioinfo/users/jbrayet/Bureau/snakemake/snakemake_rules"
+    SCRIPT_PATH: "/bioinfo/users/jbrayet/snakemake/alban_scripts/"
 
 graph:
     SNAKEFILE: "/ifb/pipeline_rna/snakefile_rna_pipeline"
+    DOT_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 fastqc:
-    FASTQC_BIN_DIR: ""
+    FASTQC_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/FastQC/"
 
 trim_galore:
-    CUTADAPT_BIN_DIR: ""
-    TRIMGALORE_BIN_DIR: "/ifb/trimGalore/"
+    CUTADAPT_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
+    TRIMGALORE_BIN_DIR: "/bioinfo/local/build/trim_galore_v0.4.0/"
 
 aligment:
-    TOOL: "star"
+    TOOL: "tophat2"
 
 tophat2:
-    TOPHAT2_BIN_DIR: "/ifb/tophat-2.1.1/src/"
+    TOPHAT2_BIN_DIR: "~/miniconda3/envs/py27/bin/"
     RG_LIBRARY: "Illumina"
-    BOWTIE2_REFERENCE_ROOT: "/root/mydisk/rna_annotations/mm9"
+    BOWTIE2_REFERENCE_ROOT: "/data/annotations/Mouse/mm10/complete/bowtie2_indexes/mm10"
     MAXHITS: "1"
     MM_RNA: "3"
     INSERTSIZE: "150"
@@ -47,32 +48,32 @@ tophat2:
     RNA_LIBRARY_TYPE: "fr-firststrand"
 
 star:
-    STAR_BIN_DIR: ""
-    LIMIT_GENOME_GENERATE_RAM: "7500000000"
-    GENOME_FASTA_FILE: "/root/mydisk/rna_annotations/mm9.fa"
+    STAR_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
+    LIMIT_GENOME_GENERATE_RAM: "18000000000"
+    GENOME_FASTA_FILE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
     RUN_THREADN: "8"
     RUN_MODE: "genomeGenerate"
-    GENOME_DIR: "/root/mydisk/rna_annotations"
-    SJDB_GTF_FILE: "/root/mydisk/rna_annotations/gencode.v19.annotation.gtf"
+    GENOME_DIR: "/data/annotations/star_indexes/mm10"
+    SJDB_GTF_FILE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.84.gtf"
     SJDB_OVERHANG: "100"
     OUT_FILTER_MULTIMAP_NMAX: "2"
     READ_FILES_COMMAND: "zcat"
     QUANT_MODE: "GeneCounts"
 
 gatk:
-    GATK_BIN_DIR: "/ifb/GATK/"
+    GATK_BIN_DIR: "/bioinfo/local/build/GATK/GenomeAnalysisTK-2.2-16-g9f648cb/"
     BED_FILE: ""
-    FASTA_REFERENCE: "/root/mydisk/rna_annotations/mm9.fa"
+    FASTA_REFERENCE: "/data/annotations/Mouse/mm10/complete/mm10.fa"
 
 samtools:
-    SAMTOOLS_BIN_DIR: ""
+    SAMTOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 picard:
-    MARKDUP: "yes"
-    PICARD_TOOLS_BIN_DIR: ""
+    MARKDUP: "no"
+    PICARD_TOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 bedtools:
-    BEDTOOLS_BIN_DIR: ""
+    BEDTOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 curie_report:
     LIBRARY_DONE_BY: "Alban"

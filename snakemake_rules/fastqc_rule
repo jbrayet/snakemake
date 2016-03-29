@@ -1,15 +1,17 @@
 rule fastqc:
     input:
-        r1="{output_path}/{sample}/{sample}.{group}.fastq.gz",
-        r2="{output_path}/{sample}"
+        "{output_path}/{sample}/{sample}.{group}.fastq.gz"
     output:
-        "{output_path}/{sample}/{sample}.{group}_fastqc.zip"
+        "{output_path}/{sample}/{sample}.{group}_fastqc.html"
     log:
         "{output_path}/{sample}/logs/{sample}.{group}_fastqc.log"
     params:
-        fastqc_path=config["fastqc"]["FASTQC_BIN_DIR"]
+        cluster="-q batch -N snakemake_fastqc -l nodes=1:ppn=1,mem=5Gb",
+        fastqc_path=config["fastqc"]["FASTQC_BIN_DIR"],
+        output_path=config["general_path"]["OUTPUT_PATH"],
+        sample=lambda wildcards: config["samples"][wildcards.sample]
     shell:
-        "{params.fastqc_path}fastqc -q -o {input.r2} {input.r1} 2> {log}"
+        "{params.fastqc_path}fastqc -q -o {params.output_path}/{params.sample} {input} 2> {log}"
 
 
 

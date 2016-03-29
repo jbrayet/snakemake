@@ -1,11 +1,15 @@
 rule graph:
     output:
-        r1="{output_path}/graph.svg"
+        o1="{output_path}/graph.svg"
 #        r2="{output_path}/graph.png"
+    log:
+        "{output_path}/graph.log"
     params:
+        cluster="-q batch -N snakemake_graph -l nodes=1:ppn=1,mem=1Gb",
+        dot_path=config["graph"]["DOT_BIN_DIR"],
         snakefile=config["graph"]["SNAKEFILE"]
     shell:
-        "snakemake -s {params.snakefile} --dag | dot -Tsvg > {output.r1}"
+        "snakemake -s {params.snakefile} --dag | {params.dot_path}dot -Tsvg > {output.o1} 2> {log}"
 #        "snakemake -s {params.snakefile} --dag | dot -Tpng > {output.r2}"
 
 

@@ -2,7 +2,7 @@
 from snakemake.utils import report
 from urllib.request import pathname2url
 
-configfile: "/ifb/pipeline_rna/config.yaml"
+configfile: "/bioinfo/users/jbrayet/Bureau/snakemake/pipeline_rna/config.yaml"
 
 include: "../snakemake_rules/trimGalore_rule"
 include: "../snakemake_rules/fastqc_rule"
@@ -15,6 +15,8 @@ if config["aligment"]["TOOL"] == "tophat2":
 
 if config["aligment"]["TOOL"] == "star":
     include: "../snakemake_rules/star_indexes_rule"
+    if config["picard"]["MARKDUP"] != "yes":
+        include: "../snakemake_rules/star_rule"
 
 include: "../snakemake_rules/picard_markdup_rule"
 include: "../snakemake_rules/samtools_merge_rule"
@@ -26,36 +28,40 @@ include: "../snakemake_rules/curie_report_rule"
 include: "../snakemake_rules/graph_rule"
 
 workdir: config["general_path"]["INPUT_PATH"]
+output_path=config["general_path"]["OUTPUT_PATH"]
 
-graph=expand("{output_path}/graph.svg", output_path=config["general_path"]["OUTPUT_PATH"])
 
-trimming=expand(("{output_path}/{sample}", "{output_path}/{sample}/{sample}.R1.fastq.gz", "{output_path}/{sample}/{sample}.R2.fastq.gz"), output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+#graph=expand(output_path+"/graph.svg")
 
-qc=expand("{output_path}/{sample}/{sample}.{group}_fastqc.zip", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"], group=config["group"])
+trimming=expand((output_path+"/{sample}/{sample}.R1.fastq.gz", output_path+"/{sample}/{sample}.R2.fastq.gz"), sample=config["samples"])
+
+qc=expand(output_path+"/{sample}/{sample}.{group}_fastqc.html", sample=config["samples"], group=config["group"])
 
 if config["aligment"]["TOOL"] == "tophat2":
     if config["picard"]["MARKDUP"] != "yes":
 
-        align=expand(("{output_path}/{sample}/", "{output_path}/{sample}/{sample}.mapped.bam", "{output_path}/{sample}/{sample}.unmapped.bam", "{output_path}/{sample}/{sample}.deletions.bed", "{output_path}/{sample}/{sample}.insertions.bed", "{output_path}/{sample}/{sample}.junctions.bed"), output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+        tophat2_align=expand((output_path+"/{sample}/", output_path+"/{sample}/{sample}.mapped.bam", output_path+"/{sample}/{sample}.unmapped.bam", output_path+"/{sample}/{sample}.deletions.bed", output_path+"/{sample}/{sample}.insertions.bed", output_path+"/{sample}/{sample}.junctions.bed"), sample=config["samples"])
 
     else:
 
-        align_and_markdup=expand(("{output_path}/{sample}/", "{output_path}/{sample}/{sample}.mapped.markdup.bam", "{output_path}/{sample}/{sample}.unmapped.bam", "{output_path}/{sample}/{sample}.deletions.bed", "{output_path}/{sample}/{sample}.insertions.bed", "{output_path}/{sample}/{sample}.junctions.bed"), output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+        tophat2_align_and_markdup=expand((output_path+"/{sample}/", output_path+"/{sample}/{sample}.mapped.markdup.bam", output_path+"/{sample}/{sample}.unmapped.bam", output_path+"/{sample}/{sample}.deletions.bed", output_path+"/{sample}/{sample}.insertions.bed", output_path+"/{sample}/{sample}.junctions.bed"), sample=config["samples"])
 
-        markdup=expand(("{output_path}/{sample}/{sample}.duplicates.bam", "{output_path}/{sample}/{sample}.metrics", "{output_path}/{sample}/{sample}.mapped.bam"), output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"], group=config["group"])
+        markdup=expand((output_path+"/{sample}/{sample}.duplicates.bam", output_path+"/{sample}/{sample}.metrics", output_path+"/{sample}/{sample}.mapped.bam"), sample=config["samples"], group=config["group"])
 
 if config["aligment"]["TOOL"] == "star":
-    star_indexes=expand("{output_path}/", output_path=config["star"]["GENOME_DIR"])
+    star_indexes=expand(("{annotation_path}/chrLength.txt", "{annotation_path}/chrName.txt", "{annotation_path}/chrStart.txt", "{annotation_path}/Genome", "{annotation_path}/genomeParameters.txt", "{annotation_path}/SA", "{annotation_path}/SAindex"), annotation_path=config["star"]["GENOME_DIR"])
 
-merge=expand("{output_path}/{sample}/{sample}.bam", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+    star_align=expand((output_path+"/{sample}/{sample}_Aligned.out.sam", output_path+"/{sample}/{sample}_ReadsPerGene.out.tab", output_path+"/{sample}/{sample}_SJ.out.tab"), sample=config["samples"])
 
-index=expand("{output_path}/{sample}/{sample}.mapped.bam.bai", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+merge=expand(output_path+"/{sample}/{sample}.bam", sample=config["samples"])
 
-flagstat=expand("{output_path}/{sample}/{sample}.stats.txt", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+index=expand(output_path+"/{sample}/{sample}.mapped.bam.bai", sample=config["samples"])
 
-coverage=expand("{output_path}/{sample}/{sample}_coverage.txt", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+flagstat=expand(output_path+"/{sample}/{sample}.stats.txt", sample=config["samples"])
 
-reformat_coverage=expand("{output_path}/{sample}/{sample}.coverage.stats.txt", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+coverage=expand(output_path+"/{sample}/{sample}_coverage.txt", sample=config["samples"])
+
+reformat_coverage=expand(output_path+"/{sample}/{sample}.coverage.stats.txt", sample=config["samples"])
 
 #samples_biosamples=[]
 #dict_samples=config["samples"]
@@ -66,17 +72,18 @@ reformat_coverage=expand("{output_path}/{sample}/{sample}.coverage.stats.txt", o
 
 #print(samples_biosamples)
 
-curie_report=expand("{output_path}/{sample}/{sample}--NGS-RunReport.pdf", output_path=config["general_path"]["OUTPUT_PATH"], sample=config["samples"])
+curie_report=expand(output_path+"/{sample}/{sample}--NGS-RunReport.pdf", sample=config["samples"])
 
-#report=str(config["general_path"]["OUTPUT_PATH"])+"/report.html"
+#report=expand(output_path+"/report.html")
 
 rule all:
     input:
-        star_indexes,
+#        star_indexes,
 #        trimming,
 #        qc,
-#        align,
-#        align_and_markdup,
+#        tophat2_align,
+#        tophat2_align_and_markdup,
+#        star_align,
 #        markdup,
 #        merge,
 #        index,
@@ -85,17 +92,23 @@ rule all:
 #        reformat_coverage,
 #        curie_report,
 #        graph,
-#        config["general_path"]["OUTPUT_PATH"]+"/report.html"
+#        report
+        config["general_path"]["OUTPUT_PATH"]+"/report.html"
 
+    params:
+        cluster="-q batch -N snakemake_rna_pipeline -l nodes=1:ppn=1,mem=1Gb"
     shell: "echo Job done `date '+%Y-%m-%d %H:%M'`"
 
 rule report:
     input:
         reportTable=curie_report,
-        graph=graph
+#        graph=graph
     output: 
         html=config["general_path"]["OUTPUT_PATH"]+"/report.html"
+    params:
+        cluster="-q batch -N snakemake_report_rna_pipeline -l nodes=1:ppn=1,mem=1Gb"
     run:
+#        Pipeline graph: graph_
 
         samples=len(config["samples"])
 
@@ -106,8 +119,6 @@ rule report:
 
         Number of sample(s): {samples}
        
-        Pipeline graph: graph_ 
-
         One report is available for each sample (see reportTable_ table). 
 
         """, output.html, metadata="Jocelyn Brayet (jocelyn.brayet@curie.fr)", **input)

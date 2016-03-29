@@ -6,6 +6,7 @@ rule samtools_index:
     log:
         "{output_path}/{sample}/logs/{sample}_samtools_index.log"
     params:
+        cluster="-q batch -N snakemake_samtools_index -l nodes=1:ppn=1,mem=5Gb",
         samtools_path=config["samtools"]["SAMTOOLS_BIN_DIR"]
     shell:
         "{params.samtools_path}samtools index {input} 2> {log}"
