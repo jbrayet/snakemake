@@ -18,6 +18,6 @@ rule star:
         quantMode=config["star"]["QUANT_MODE"],
         output_path=config["general_path"]["OUTPUT_PATH"],
         sample=lambda wildcards: config["samples"][wildcards.sample]
-    shell:
-        "{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outFileNamePrefix {params.output_path}/{params.sample}/{params.sample}_ --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}"
+    run:
+        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --outSAMattrRG ID:{params.sample} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outFileNamePrefix {params.output_path}/{params.sample}/{params.sample}_ --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
 

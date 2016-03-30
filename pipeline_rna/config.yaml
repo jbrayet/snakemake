@@ -17,7 +17,7 @@ group:
 
 general_path:
     INPUT_PATH: "/bioinfo/users/jbrayet/snakemake/input_rna_pipeline"
-    OUTPUT_PATH: "/bioinfo/users/jbrayet/snakemake/results_rna_pipeline"
+    OUTPUT_PATH: "/bioinfo/users/jbrayet/snakemake/results_rna_pipeline_star_no_picard"
     RULE_PATH: "/bioinfo/users/jbrayet/Bureau/snakemake/snakemake_rules"
     SCRIPT_PATH: "/bioinfo/users/jbrayet/snakemake/alban_scripts/"
 
@@ -33,7 +33,7 @@ trim_galore:
     TRIMGALORE_BIN_DIR: "/bioinfo/local/build/trim_galore_v0.4.0/"
 
 aligment:
-    TOOL: "tophat2"
+    TOOL: "star"
 
 tophat2:
     TOPHAT2_BIN_DIR: "~/miniconda3/envs/py27/bin/"
@@ -63,10 +63,11 @@ star:
 gatk:
     GATK_BIN_DIR: "/bioinfo/local/build/GATK/GenomeAnalysisTK-2.2-16-g9f648cb/"
     BED_FILE: ""
-    FASTA_REFERENCE: "/data/annotations/Mouse/mm10/complete/mm10.fa"
+    FASTA_REFERENCE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
 
 samtools:
     SAMTOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
+    FASTA_REFERENCE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
 
 picard:
     MARKDUP: "no"

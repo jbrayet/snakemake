@@ -2,7 +2,7 @@ rule fastqc:
     input:
         "{output_path}/{sample}/{sample}.{group}.fastq.gz"
     output:
-        "{output_path}/{sample}/{sample}.{group}_fastqc.html"
+        "{output_path}/{sample}/{sample}.{group}_fastqc.zip"
     log:
         "{output_path}/{sample}/logs/{sample}.{group}_fastqc.log"
     params:

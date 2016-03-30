@@ -8,6 +8,7 @@ include: "../snakemake_rules/trimGalore_rule"
 include: "../snakemake_rules/fastqc_rule"
 
 if config["aligment"]["TOOL"] == "tophat2":
+    include: "../snakemake_rules/samtools_merge_rule"
     if config["picard"]["MARKDUP"] != "yes":
         include: "../snakemake_rules/tophat2_rule"
     else:
@@ -15,11 +16,12 @@ if config["aligment"]["TOOL"] == "tophat2":
 
 if config["aligment"]["TOOL"] == "star":
     include: "../snakemake_rules/star_indexes_rule"
+    include: "../snakemake_rules/samtools_sam_to_bam_rule"
+    include: "../snakemake_rules/samtools_sort_rule"
     if config["picard"]["MARKDUP"] != "yes":
         include: "../snakemake_rules/star_rule"
 
 include: "../snakemake_rules/picard_markdup_rule"
-include: "../snakemake_rules/samtools_merge_rule"
 include: "../snakemake_rules/samtools_index_rule"
 include: "../snakemake_rules/samtools_flagstat_rule"
 include: "../snakemake_rules/gatk_rule"
@@ -29,7 +31,6 @@ include: "../snakemake_rules/graph_rule"
 
 workdir: config["general_path"]["INPUT_PATH"]
 output_path=config["general_path"]["OUTPUT_PATH"]
-
 
 #graph=expand(output_path+"/graph.svg")
 
@@ -48,14 +49,23 @@ if config["aligment"]["TOOL"] == "tophat2":
 
         markdup=expand((output_path+"/{sample}/{sample}.duplicates.bam", output_path+"/{sample}/{sample}.metrics", output_path+"/{sample}/{sample}.mapped.bam"), sample=config["samples"], group=config["group"])
 
+    merge=expand(output_path+"/{sample}/{sample}.bam", sample=config["samples"])
+
 if config["aligment"]["TOOL"] == "star":
     star_indexes=expand(("{annotation_path}/chrLength.txt", "{annotation_path}/chrName.txt", "{annotation_path}/chrStart.txt", "{annotation_path}/Genome", "{annotation_path}/genomeParameters.txt", "{annotation_path}/SA", "{annotation_path}/SAindex"), annotation_path=config["star"]["GENOME_DIR"])
 
-    star_align=expand((output_path+"/{sample}/{sample}_Aligned.out.sam", output_path+"/{sample}/{sample}_ReadsPerGene.out.tab", output_path+"/{sample}/{sample}_SJ.out.tab"), sample=config["samples"])
+    if config["picard"]["MARKDUP"] != "yes":
 
-merge=expand(output_path+"/{sample}/{sample}.bam", sample=config["samples"])
+        star_align=expand((output_path+"/{sample}/{sample}_Aligned.out.sam", output_path+"/{sample}/{sample}_ReadsPerGene.out.tab", output_path+"/{sample}/{sample}_SJ.out.tab"), sample=config["samples"])
 
-index=expand(output_path+"/{sample}/{sample}.mapped.bam.bai", sample=config["samples"])
+    else:
+
+        star_align=expand((output_path+"/{sample}/{sample}_Aligned.out.sam", output_path+"/{sample}/{sample}_ReadsPerGene.out.tab", output_path+"/{sample}/{sample}_SJ.out.tab"), sample=config["samples"])
+
+    bam_file=expand(output_path+"/{sample}/{sample}.tmp.bam", sample=config["samples"])
+    sort_bam_file=expand((output_path+"/{sample}/{sample}.bam", output_path+"/{sample}/{sample}.mapped.bam"), sample=config["samples"])
+
+index=expand(output_path+"/{sample}/{sample}.bam.bai", sample=config["samples"])
 
 flagstat=expand(output_path+"/{sample}/{sample}.stats.txt", sample=config["samples"])
 
@@ -84,6 +94,7 @@ rule all:
 #        tophat2_align,
 #        tophat2_align_and_markdup,
 #        star_align,
+#        bam_file,
 #        markdup,
 #        merge,
 #        index,
