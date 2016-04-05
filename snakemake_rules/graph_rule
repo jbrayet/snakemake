@@ -9,7 +9,7 @@ rule graph:
         dot_path=config["graph"]["DOT_BIN_DIR"],
         snakefile=config["graph"]["SNAKEFILE"]
     shell:
-        "snakemake -s {params.snakefile} --dag | {params.dot_path}dot -Tsvg > {output.o1} 2> {log}"
+        "snakemake -s {params.snakefile} --rulegraph | {params.dot_path}dot -Tsvg > {output.o1} 2> {log}"
 #        "snakemake -s {params.snakefile} --dag | dot -Tpng > {output.r2}"
 
 

@@ -2,7 +2,7 @@ rule samtools_sam_to_bam:
     input:
         "{output_path}/{sample}/{sample}_Aligned.out.sam"
     output:
-        "{output_path}/{sample}/{sample}.tmp.bam",
+        "{output_path}/{sample}/{sample}.tmp.bam"
     log:
         "{output_path}/{sample}/logs/{sample}_samtools_sam_to_bam.log"
     params:

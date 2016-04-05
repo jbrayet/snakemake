@@ -8,8 +8,8 @@ samples:
     B99T2: "B99T2"
 
 biosamples:
-    B99T1: "biosample1"
-    B99T2: "biosample2"
+    biosample1: "biosample1"
+    biosample2: "biosample2"
 
 group:
     R1: "R1"
@@ -17,12 +17,12 @@ group:
 
 general_path:
     INPUT_PATH: "/bioinfo/users/jbrayet/snakemake/input_rna_pipeline"
-    OUTPUT_PATH: "/bioinfo/users/jbrayet/snakemake/results_rna_pipeline_star_no_picard"
+    OUTPUT_PATH: "/bioinfo/users/jbrayet/snakemake/pasteur_temp_files"
     RULE_PATH: "/bioinfo/users/jbrayet/Bureau/snakemake/snakemake_rules"
     SCRIPT_PATH: "/bioinfo/users/jbrayet/snakemake/alban_scripts/"
 
 graph:
-    SNAKEFILE: "/ifb/pipeline_rna/snakefile_rna_pipeline"
+    SNAKEFILE: "/bioinfo/users/jbrayet/Bureau/snakemake/pipeline_rna/snakefile_rna_pipeline"
     DOT_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 fastqc:
@@ -33,7 +33,7 @@ trim_galore:
     TRIMGALORE_BIN_DIR: "/bioinfo/local/build/trim_galore_v0.4.0/"
 
 aligment:
-    TOOL: "star"
+    TOOL: "TOPHAT2"
 
 tophat2:
     TOPHAT2_BIN_DIR: "~/miniconda3/envs/py27/bin/"
@@ -59,6 +59,7 @@ star:
     OUT_FILTER_MULTIMAP_NMAX: "2"
     READ_FILES_COMMAND: "zcat"
     QUANT_MODE: "GeneCounts"
+    LB: "Illumina"
 
 gatk:
     GATK_BIN_DIR: "/bioinfo/local/build/GATK/GenomeAnalysisTK-2.2-16-g9f648cb/"
@@ -70,7 +71,7 @@ samtools:
     FASTA_REFERENCE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
 
 picard:
-    MARKDUP: "no"
+    MARKDUP: "yes"
     PICARD_TOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 bedtools:

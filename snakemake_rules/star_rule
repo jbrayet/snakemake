@@ -17,7 +17,8 @@ rule star:
         readFilesCommand=config["star"]["READ_FILES_COMMAND"],
         quantMode=config["star"]["QUANT_MODE"],
         output_path=config["general_path"]["OUTPUT_PATH"],
-        sample=lambda wildcards: config["samples"][wildcards.sample]
+        sample=lambda wildcards: config["samples"][wildcards.sample],
+        lb=config["star"]["LB"]
     run:
-        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --outSAMattrRG ID:{params.sample} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outFileNamePrefix {params.output_path}/{params.sample}/{params.sample}_ --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
-
+        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outSAMattrRGline ID:{params.sample} SM:{params.sample} LB:{params.lb} --outFileNamePrefix {params.output_path}/{params.sample}/{params.sample}_ --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
+        shell("rm -rf {params.output_path}/{params.sample}/{params.sample}_STARtmp 2> {log}")
