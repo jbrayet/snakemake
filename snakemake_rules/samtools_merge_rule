@@ -3,7 +3,7 @@ rule samtools_merge:
         i1="{output_path}/{sample}/{sample}.mapped.bam",
         i2="{output_path}/{sample}/{sample}.unmapped.bam"
     output:
-        "{output_path}/{sample}/{sample}.bam"
+        temp("{output_path}/{sample}/{sample}.bam")
     log:
         "{output_path}/{sample}/logs/{sample}_samtools_merge.log"
     params:

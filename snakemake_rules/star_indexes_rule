@@ -13,13 +13,12 @@ rule star_indexes:
         cluster="-q batch -N snakemake_star_indexes -l nodes=1:ppn=8,mem=40Gb",
         star_bin_dir=config["star"]["STAR_BIN_DIR"],
         genomeDir=config["star"]["GENOME_DIR"],
-        limitGenomeGenerateRAM=config["star"]["LIMIT_GENOME_GENERATE_RAM"],
         runThreadN=config["star"]["RUN_THREADN"],
         runMode=config["star"]["RUN_MODE"],
         genomeFastaFiles=config["star"]["GENOME_FASTA_FILE"],
         sjdbGTFfile=config["star"]["SJDB_GTF_FILE"],
         sjdbOverhang=config["star"]["SJDB_OVERHANG"]
     shell:
-        "{params.star_bin_dir}STAR --limitGenomeGenerateRAM {params.limitGenomeGenerateRAM} --runThreadN {params.runThreadN} --runMode {params.runMode} --genomeDir {params.genomeDir} --genomeFastaFiles {params.genomeFastaFiles} --sjdbGTFfile {params.sjdbGTFfile} --sjdbOverhang {params.sjdbOverhang} 1> {log} 2> {log}"
+        "{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --runMode {params.runMode} --genomeDir {params.genomeDir} --genomeFastaFiles {params.genomeFastaFiles} --sjdbGTFfile {params.sjdbGTFfile} --sjdbOverhang {params.sjdbOverhang} 1> {log} 2> {log}"
 
 

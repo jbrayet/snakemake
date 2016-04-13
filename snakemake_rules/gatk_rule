@@ -3,7 +3,7 @@ rule gatk:
         i1="{output_path}/{sample}/{sample}.mapped.bam",
         i2="{output_path}/{sample}/{sample}.mapped.bam.bai"
     output:
-        "{output_path}/{sample}/{sample}_coverage.txt"
+        temp("{output_path}/{sample}/{sample}_coverage.txt")
     log:
         "{output_path}/{sample}/logs/{sample}_gatk.log"
     params:

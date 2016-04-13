@@ -1,6 +1,6 @@
 rule fastqc:
     input:
-        "{output_path}/{sample}/{sample}.{group}.fastq.gz"
+        "{sample}/{sample}.{group}.fastq.gz"
     output:
         o1="{output_path}/{sample}/{sample}.{group}_fastqc.zip",
         o2="{output_path}/{sample}/{sample}.{group}_fastqc.html"

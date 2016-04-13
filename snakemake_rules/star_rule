@@ -21,4 +21,4 @@ rule star:
         lb=config["star"]["LB"]
     run:
         shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outSAMattrRGline ID:{params.sample} SM:{params.sample} LB:{params.lb} --outFileNamePrefix {params.output_path}/{params.sample}/{params.sample}_ --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
-        shell("rm -rf {params.output_path}/{params.sample}/{params.sample}_STARtmp 2> {log}")
+        shell("rm -rf {params.output_path}/{params.sample}/{params.sample}__STARtmp 2> {log}")

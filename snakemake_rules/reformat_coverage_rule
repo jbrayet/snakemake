@@ -2,7 +2,7 @@ rule reformat_coverage:
     input:
         "{output_path}/{sample}/{sample}_coverage.txt"
     output:
-        "{output_path}/{sample}/{sample}.coverage.stats.txt"
+        temp("{output_path}/{sample}/{sample}.coverage.stats.txt")
     log:
         "{output_path}/{sample}/logs/{sample}_reformat_coverage.log"
     params:

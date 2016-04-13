@@ -2,7 +2,7 @@ rule samtools_index:
     input:
         "{output_path}/{sample}/{sample}.mapped.bam"
     output:
-        "{output_path}/{sample}/{sample}.mapped.bam.bai"
+        temp("{output_path}/{sample}/{sample}.mapped.bam.bai")
     log:
         "{output_path}/{sample}/logs/{sample}_samtools_index.log"
     params:

@@ -8,6 +8,7 @@ rule picard_markdup:
     log:
         "{output_path}/{sample}/logs/{sample}_picard_markdup.log"
     params:
+        cluster="-q batch -N snakemake_picard_markdup -l nodes=1:ppn=1,mem=20Gb",
         picard_path=config["picard"]["PICARD_TOOLS_BIN_DIR"]
     shell:
         "{params.picard_path}picard MarkDuplicates I={input} O={output.r1} REMOVE_DUPLICATES=false M={output.r2} VALIDATION_STRINGENCY=LENIENT 2>{log} && "

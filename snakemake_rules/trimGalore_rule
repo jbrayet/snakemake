@@ -1,7 +1,7 @@
 rule trim_galore:
     input: 
-        i1="{sample}.R1.fastq.gz",
-        i2="{sample}.R2.fastq.gz"
+        i1="{sample}/{sample}.R1.fastq.gz",
+        i2="{sample}/{sample}.R2.fastq.gz"
 #        i3=config["samples"]
 #        i3="{sample}"
 #        i3=lambda wildcards: config["samples"][wildcards.sample]

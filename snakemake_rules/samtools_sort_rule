@@ -2,8 +2,8 @@ rule samtools_sort:
     input:
         "{output_path}/{sample}/{sample}.tmp.bam"
     output:
-        o1="{output_path}/{sample}/{sample}.bam",
-        o2="{output_path}/{sample}/{sample}.mapped.bam"
+        o1=temp("{output_path}/{sample}/{sample}.bam"),
+        o2=temp("{output_path}/{sample}/{sample}.mapped.bam")
     log:
         "{output_path}/{sample}/logs/{sample}_samtools_sort.log"
     params:
