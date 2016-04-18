@@ -129,7 +129,7 @@ rule report:
     input:
         reportTable=curie_report,
 #        graph=graph
-#        countTable=htseq
+        countTable=htseq
     output: 
         html=config["general_path"]["OUTPUT_PATH"]+"/report.html"
     params:
@@ -147,6 +147,8 @@ rule report:
         Number of sample(s): {samples}
        
         One report is available for each sample (see reportTable_ table). 
+
+        HTSeq files (see countTable_ table).
 
         """, output.html, metadata="Jocelyn Brayet (jocelyn.brayet@curie.fr)", **input)
 

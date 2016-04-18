@@ -68,9 +68,9 @@ tophat2:
     RNA_LIBRARY_TYPE: "fr-firststrand"
 
 htseq:
-    HTSEQ_BIN_DIR: ""
-    STRANDED: "no"
-    GTF_FILE: ""
+    HTSEQ_BIN_DIR: "~/miniconda3/envs/py27/bin/"
+    STRANDED: "'no'"
+    GTF_FILE: "/data/annotations/Mouse/mm10/complete/gtf/mm10.refFlat.gtf"
 
 star:
     STAR_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
