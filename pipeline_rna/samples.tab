@@ -1,2 +1,24 @@
-B99T1.R1
-B99T1.R2
+;tab with samples and biosamples
+SAMPLE	BIOSAMPLE
+A409T1	2_cell_N_WT
+A409T10	8_cell_SOV_WT
+A409T11	8_cell_N_D3L_--+
+A409T12	8_cell_SOV_D3L_--+
+A409T13	MC_N_WT
+A409T14	MC_SOV_WT
+A409T15	MC_N_D3L_--+
+A409T16	MC_SOV_D3L_--+
+A409T17	Blastocyst_N_WT
+A409T18	Blastocyst_SOV_WT
+A409T19	Blastocyst_N_D3L_--+
+A409T2	2_cell_SOV_WT
+A409T20	Blastocyst_SOV_D3L_--+
+A409T21	Oocyte_SOV_WT
+A409T22	Oocyte_SOV_D3L_--+
+A409T3	2_cell_N_D3L_--+
+A409T4	2_cell_SOV_D3L_--+
+A409T5	4_cell_N_WT
+A409T6	4_cell_SOV_WT
+A409T7	4_cell_N_D3L_--+
+A409T8	4_cell_SOV_D3L_--+
+A409T9	8_cell_N_WT

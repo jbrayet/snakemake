@@ -2,11 +2,7 @@ rule trim_galore:
     input: 
         i1="{sample}/{sample}.R1.fastq.gz",
         i2="{sample}/{sample}.R2.fastq.gz"
-#        i3=config["samples"]
-#        i3="{sample}"
-#        i3=lambda wildcards: config["samples"][wildcards.sample]
     output:
-#        o1="{output_path}/{sample}",
         o1="{output_path}/{sample}/{sample}.R1.fastq.gz",
         o2="{output_path}/{sample}/{sample}.R2.fastq.gz"
     log:
@@ -15,16 +11,10 @@ rule trim_galore:
         cluster="-q batch -N snakemake_trimGalore -l nodes=1:ppn=2,mem=5Gb",
         cutadap_path=config["trim_galore"]["CUTADAPT_BIN_DIR"],
         trim_galore_path=config["trim_galore"]["TRIMGALORE_BIN_DIR"],
-        output_path=config["general_path"]["OUTPUT_PATH"],
-        sample=lambda wildcards: config["samples"][wildcards.sample]
+        output_path=config["general_path"]["OUTPUT_PATH"]
     run:
-#        import os
-        shell("{params.trim_galore_path}trim_galore --path_to_cutadapt '{params.cutadap_path}cutadapt' -q 0 -o {params.output_path}/{params.sample} --paired {input.i1} {input.i2} 2> {log}")
-#        print({params.sample})
-#        for sample in {params.sample}.split():
-#        sample=os.basename({output.o1})
-#        print({params.sample})
-        shell("mv {params.output_path}/{params.sample}/{params.sample}.R1_val_1.fq.gz {output.o1} 2> {log}")
-        shell("mv {params.output_path}/{params.sample}/{params.sample}.R2_val_2.fq.gz {output.o2} 2> {log}")
+        shell("{params.trim_galore_path}trim_galore --path_to_cutadapt '{params.cutadap_path}cutadapt' -q 0 -o {params.output_path}/{wildcards.sample} --paired {input.i1} {input.i2} 2> {log}")
+        shell("mv {params.output_path}/{wildcards.sample}/{wildcards.sample}.R1_val_1.fq.gz {output.o1} 2> {log}")
+        shell("mv {params.output_path}/{wildcards.sample}/{wildcards.sample}.R2_val_2.fq.gz {output.o2} 2> {log}")
 
 

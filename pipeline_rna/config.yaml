@@ -4,32 +4,7 @@ description: |
 author: "Jocelyn Brayet"
 
 samples:
-    A409T1: "A409T1"
-    A409T10: "A409T10"
-    A409T11: "A409T11"
-    A409T12: "A409T12"
-    A409T13: "A409T13"
-    A409T14: "A409T14"
-    A409T15: "A409T15"
-    A409T16: "A409T16"
-    A409T17: "A409T17"
-    A409T18: "A409T18"
-    A409T19: "A409T19"
-    A409T2: "A409T2"
-    A409T20: "A409T20"
-    A409T21: "A409T21"
-    A409T22: "A409T22"
-    A409T3: "A409T3"
-    A409T4: "A409T4"
-    A409T5: "A409T5"
-    A409T6: "A409T6"
-    A409T7: "A409T7"
-    A409T8: "A409T8"
-    A409T9: "A409T9"
-
-biosamples:
-    biosample1: "biosample1"
-    biosample2: "biosample2"
+    SAMPLES_TAB_FILE: "/bioinfo/users/jbrayet/Bureau/snakemake/pipeline_rna/samples.tab"
 
 group:
     R1: "R1"
@@ -37,7 +12,7 @@ group:
 
 general_path:
     INPUT_PATH: "/data/tmp/TEST_SNAKEMAKE"
-    OUTPUT_PATH: "/data/tmp/TEST_SNAKEMAKE/results_tophat2"
+    OUTPUT_PATH: "/data/tmp/TEST_SNAKEMAKE/results_star_htseq"
     RULE_PATH: "/bioinfo/users/jbrayet/Bureau/snakemake/snakemake_rules"
     SCRIPT_PATH: "/bioinfo/users/jbrayet/snakemake/alban_scripts/"
 
@@ -53,12 +28,12 @@ trim_galore:
     TRIMGALORE_BIN_DIR: "/bioinfo/local/build/trim_galore_v0.4.0/"
 
 aligment:
-    TOOL: "TOPHAT2"     # STAR or TOPHAT2
+    TOOL: "STAR"     # STAR or TOPHAT2
 
 tophat2:
-    TOPHAT2_BIN_DIR: "~/miniconda3/envs/py27/bin/"
+    TOPHAT2_BIN_DIR: "~/miniconda3/envs/alban_env/bin/"
     RG_LIBRARY: "Illumina"
-    BOWTIE2_REFERENCE_ROOT: "/data/annotations/Mouse/mm10/complete/bowtie2_indexes/mm10"
+    BOWTIE2_REFERENCE_ROOT: "/data/annotations/Galaxy/Mouse/mm10/bowtie2/mm10"
     MAXHITS: "1"
     MM_RNA: "3"
     INSERTSIZE: "150"
@@ -70,34 +45,40 @@ tophat2:
 htseq:
     HTSEQ_BIN_DIR: "~/miniconda3/envs/py27/bin/"
     STRANDED: "'no'"
-    GTF_FILE: "/data/annotations/Mouse/mm10/complete/gtf/mm10.refFlat.gtf"
+    SAM_TYPE: "bam"
+    ORDER: "name"
+    GTF_FILE: "/data/tmp/TEST_SNAKEMAKE/refFlat.gtf"
 
 star:
-    STAR_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
-    GENOME_FASTA_FILE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
+    STAR_BIN_DIR: "/bioinfo/local/build/STAR/STAR_2.5.0a/bin/Linux_x86_64/"
+    GENOME_FASTA_FILE: "/data/annotations/Mouse/mm10/complete/STAR_indexes/"
     RUN_THREADN: "8"
-    RUN_MODE: "genomeGenerate"
+    OUT_SAM_TYPE: "BAM SortedByCoordinate"
+    RUN_MODE: "alignReads"
     GENOME_DIR: "/data/annotations/star_indexes/mm10"
     SJDB_GTF_FILE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.84.gtf"
     SJDB_OVERHANG: "100"
-    OUT_FILTER_MULTIMAP_NMAX: "2"
+    OUT_FILTER_MULTIMAP_NMAX: "1"
+    OUT_READS_UNMAPPED: "Fastx"
+    OUT_FILTER_MISMATCH_NMAX: "6"
     READ_FILES_COMMAND: "zcat"
     QUANT_MODE: "GeneCounts"
+    OUT_SAM_STRAND_FIELD: "intronMotif"
     LB: "Illumina"
 
 gatk:
     GATK_BIN_DIR: "/bioinfo/local/build/GATK/GenomeAnalysisTK-2.2-16-g9f648cb/"
     BED_FILE: ""
 #    FASTA_REFERENCE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
-    FASTA_REFERENCE: "/data/annotations/Mouse/mm10/complete/bowtie2_indexes/mm10.fa"
+    FASTA_REFERENCE: "/data/annotations/Galaxy/Mouse/mm10/bowtie2/mm10.fa"
 
 samtools:
     SAMTOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 #    FASTA_REFERENCE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.dna.alt.fa"
-    FASTA_REFERENCE: "/data/annotations/Mouse/mm10/complete/bowtie2_indexes/mm10.fa"
+    FASTA_REFERENCE: "/data/annotations/Galaxy/Mouse/mm10/bowtie2/mm10.fa"
 
 picard:
-    MARKDUP: "yes"
+    MARKDUP: "no"
     PICARD_TOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 bedtools:
@@ -107,7 +88,7 @@ curie_report:
     LIBRARY_DONE_BY: "Alban"
     SEQUENCING_DONE_BY: "Jocelyn"
     PROJECT_LEADER: "Jocelyn"
-    RUN_DATE: "16-03-2016"
+    RUN_DATE: "25-04-2016"
     SPECIES: "Mouse"
     SPECIES_BUILD: "mm10"
     READ_LENGTH: "100"

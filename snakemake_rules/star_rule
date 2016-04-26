@@ -1,9 +1,9 @@
 rule star:
     input:
-        i1="{output_path}/{sample}/{sample}.R1.fastq.gz",
-        i2="{output_path}/{sample}/{sample}.R2.fastq.gz"
+        i1="{sample}/{sample}.R1.fastq.gz",
+        i2="{sample}/{sample}.R2.fastq.gz"
     output:
-        o1="{output_path}/{sample}/{sample}_Aligned.out.sam",
+        o1=temp("{output_path}/{sample}/{sample}.bam"),
         o2="{output_path}/{sample}/{sample}_ReadsPerGene.out.tab",
         o3="{output_path}/{sample}/{sample}_SJ.out.tab"
     log:
@@ -13,12 +13,17 @@ rule star:
         star_bin_dir=config["star"]["STAR_BIN_DIR"],
         runThreadN=config["star"]["RUN_THREADN"],
         genomeDir=config["star"]["GENOME_DIR"],
+        outSAMtype=config["star"]["OUT_SAM_TYPE"],
+        runMode=config["star"]["RUN_MODE"],
+        outReadsUnmapped=config["star"]["OUT_READS_UNMAPPED"],
         outFilterMultimapNmax=config["star"]["OUT_FILTER_MULTIMAP_NMAX"],
+        outFilterMismatchNmax=config["star"]["OUT_FILTER_MISMATCH_NMAX"],
         readFilesCommand=config["star"]["READ_FILES_COMMAND"],
         quantMode=config["star"]["QUANT_MODE"],
+        outSAMstrandField=config["star"]["OUT_SAM_STRAND_FIELD"],
         output_path=config["general_path"]["OUTPUT_PATH"],
-        sample=lambda wildcards: config["samples"][wildcards.sample],
         lb=config["star"]["LB"]
     run:
-        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outSAMattrRGline ID:{params.sample} SM:{params.sample} LB:{params.lb} --outFileNamePrefix {params.output_path}/{params.sample}/{params.sample}_ --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
-        shell("rm -rf {params.output_path}/{params.sample}/{params.sample}__STARtmp 2> {log}")
+        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outSAMtype {params.outSAMtype} --outSAMattrRGline ID:{wildcards.sample} SM:{wildcards.sample} LB:{params.lb} --runMode {params.runMode} --outReadsUnmapped {params.outReadsUnmapped} --outFileNamePrefix {params.output_path}/{wildcards.sample}/{wildcards.sample}_ --outFilterMismatchNmax {params.outFilterMismatchNmax} --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
+        shell("rm -rf {params.output_path}/{wildcards.sample}/{wildcards.sample}__STARtmp 2> {log}")
+        shell("mv -f {params.output_path}/{wildcards.sample}/{wildcards.sample}_Aligned.sortedByCoord.out.bam {output.o1} 2> {log}")

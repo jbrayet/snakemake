@@ -9,10 +9,9 @@ rule fastqc:
     params:
         cluster="-q batch -N snakemake_fastqc -l nodes=1:ppn=1,mem=5Gb",
         fastqc_path=config["fastqc"]["FASTQC_BIN_DIR"],
-        output_path=config["general_path"]["OUTPUT_PATH"],
-        sample=lambda wildcards: config["samples"][wildcards.sample]
+        output_path=config["general_path"]["OUTPUT_PATH"]
     shell:
-        "{params.fastqc_path}fastqc -q -o {params.output_path}/{params.sample} {input} 2> {log}"
+        "{params.fastqc_path}fastqc -q -o {params.output_path}/{wildcards.sample} {input} 2> {log}"
 
 
 

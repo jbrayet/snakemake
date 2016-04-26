@@ -22,25 +22,24 @@ rule tophat2:
         rna_library_type=config["tophat2"]["RNA_LIBRARY_TYPE"],
         g_option=config["tophat2"]["G_OPTION"],
         output_path=config["general_path"]["OUTPUT_PATH"],
-        bowtie2_reference_root=config["tophat2"]["BOWTIE2_REFERENCE_ROOT"],
-        sample=lambda wildcards: config["samples"][wildcards.sample]
+        bowtie2_reference_root=config["tophat2"]["BOWTIE2_REFERENCE_ROOT"]
     run:
         if params.gtf_file != "":
-             shell("{params.tophat2_path}tophat2 --rg-id {params.sample} --rg-sample {params.sample} --rg-library {params.rg_library} --rg-platform {params.rg_library} --rg-platform-unit {params.sample} --keep-fasta-order -G {params.gtf_file} -N {params.mm_rna} --read-edit-dist {params.mm_rna} -r {params.insertsize} --mate-std-dev {params.ecart_type} --no-coverage-search -x 1 -M -p 12 --library-type {params.rna_library_type} -g {params.g_option} -o {params.output_path}/{params.sample} {params.bowtie2_reference_root} {input.i1} {input.i2} 2> {log}")
+             shell("{params.tophat2_path}tophat2 --rg-id {wildcards.sample} --rg-sample {wildcards.sample} --rg-library {params.rg_library} --rg-platform {params.rg_library} --rg-platform-unit {wildcards.sample} --keep-fasta-order -G {params.gtf_file} -N {params.mm_rna} --read-edit-dist {params.mm_rna} -r {params.insertsize} --mate-std-dev {params.ecart_type} --no-coverage-search -x 1 -M -p 12 --library-type {params.rna_library_type} -g {params.g_option} -o {params.output_path}/{wildcards.sample} {params.bowtie2_reference_root} {input.i1} {input.i2} 2> {log}")
         else:
-             shell("{params.tophat2_path}tophat2 --rg-id {params.sample} --rg-sample {params.sample} --rg-library {params.rg_library} --rg-platform {params.rg_library} --rg-platform-unit {params.sample} --keep-fasta-order -N {params.mm_rna} --read-edit-dist {params.mm_rna} -r {params.insertsize} --mate-std-dev {params.ecart_type} --no-coverage-search -p 12 --library-type {params.rna_library_type} -g {params.g_option} -o {params.output_path}/{params.sample} {params.bowtie2_reference_root} {input.i1} {input.i2} 2> {log}")
-        shell("mv {params.output_path}/{params.sample}/accepted_hits.bam {output.o1}")
-        shell("mv {params.output_path}/{params.sample}/unmapped.bam {output.o2}")
-        shell("mv {params.output_path}/{params.sample}/deletions.bed {output.o3}")
-        shell("mv {params.output_path}/{params.sample}/insertions.bed {output.o4}")
-        shell("mv {params.output_path}/{params.sample}/junctions.bed {output.o5}")
-        shell("rm {params.output_path}/{params.sample}/prep_reads.info")
+             shell("{params.tophat2_path}tophat2 --rg-id {wildcards.sample} --rg-sample {wildcards.sample} --rg-library {params.rg_library} --rg-platform {params.rg_library} --rg-platform-unit {wildcards.sample} --keep-fasta-order -N {params.mm_rna} --read-edit-dist {params.mm_rna} -r {params.insertsize} --mate-std-dev {params.ecart_type} --no-coverage-search -p 12 --library-type {params.rna_library_type} -g {params.g_option} -o {params.output_path}/{wildcards.sample} {params.bowtie2_reference_root} {input.i1} {input.i2} 2> {log}")
+        shell("mv {params.output_path}/{wildcards.sample}/accepted_hits.bam {output.o1}")
+        shell("mv {params.output_path}/{wildcards.sample}/unmapped.bam {output.o2}")
+        shell("mv {params.output_path}/{wildcards.sample}/deletions.bed {output.o3}")
+        shell("mv {params.output_path}/{wildcards.sample}/insertions.bed {output.o4}")
+        shell("mv {params.output_path}/{wildcards.sample}/junctions.bed {output.o5}")
+        shell("rm {params.output_path}/{wildcards.sample}/prep_reads.info")
         if params.g_option != "1":
-            shell("{params.samtools_path}samtools view -H {output.o1} > {params.output_path}/{params.sample}/{params.sample}.header.txt")
-            shell("{params.samtools_path}samtools view {output.o1} | grep \"NH:i:1\" > {params.output_path}/{params.sample}/{params.sample}.unique.sam")
-            shell("cat {params.output_path}/{params.sample}/{params.sample}.header.txt {params.output_path}/{params.sample}/{params.sample}.unique.sam > {params.output_path}/{params.sample}/{params.sample}.unique.header.sam")
-            shell("{params.samtools_path}samtools view -b -S -o {params.output_path}/{params.sample}/{params.sample}.mapped.unique.bam {params.output_path}/{params.sample}/{params.sample}.unique.header.sam")
-            shell("{params.samtools_path}samtools index {params.output_path}/{params.sample}/{params.sample}.mapped.unique.bam")
-            shell("rm {params.output_path}/{params.sample}/{params.sample}.unique.sam {params.output_path}/{params.sample}/{params.sample}.header.txt {params.output_path}/{params.sample}/{params.sample}.unique.header.sam")
+            shell("{params.samtools_path}samtools view -H {output.o1} > {params.output_path}/{wildcards.sample}/{wildcards.sample}.header.txt")
+            shell("{params.samtools_path}samtools view {output.o1} | grep \"NH:i:1\" > {params.output_path}/{wildcards.sample}/{wildcards.sample}.unique.sam")
+            shell("cat {params.output_path}/{wildcards.sample}/{wildcards.sample}.header.txt {params.output_path}/{wildcards.sample}/{wildcards.sample}.unique.sam > {params.output_path}/{wildcards.sample}/{wildcards.sample}.unique.header.sam")
+            shell("{params.samtools_path}samtools view -b -S -o {params.output_path}/{wildcards.sample}/{wildcards.sample}.mapped.unique.bam {params.output_path}/{wildcards.sample}/{wildcards.sample}.unique.header.sam")
+            shell("{params.samtools_path}samtools index {params.output_path}/{wildcards.sample}/{wildcards.sample}.mapped.unique.bam")
+            shell("rm {params.output_path}/{wildcards.sample}/{wildcards.sample}.unique.sam {params.output_path}/{wildcards.sample}/{wildcards.sample}.header.txt {params.output_path}/{wildcards.sample}/{wildcards.sample}.unique.header.sam")
 
 
