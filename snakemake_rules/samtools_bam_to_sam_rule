@@ -1,0 +1,12 @@
+rule samtools_bam_to_sam:
+    input:
+        "{output_path}/{sample}/{sample}.mapped.bam"
+    output:
+        temp("{output_path}/{sample}/{sample}.sam")
+    log:
+        "{output_path}/{sample}/logs/{sample}_samtools_bam_to_sam.log"
+    params:
+        cluster="-q batch -N snakemake_samtools_bam_to_sam -l nodes=1:ppn=1,mem=2Gb",
+        samtools_path=config["samtools"]["SAMTOOLS_BIN_DIR"]
+    shell:
+        "{params.samtools_path}samtools view -h {input} > {output} 2> {log}"

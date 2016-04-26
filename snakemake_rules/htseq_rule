@@ -1,0 +1,20 @@
+rule htseq:
+    input:
+        "{output_path}/{sample}/{sample}.mapped.bam"
+    output:
+        "{output_path}/{sample}/{sample}-{biosample}.htseq"
+    log:
+        "{output_path}/{sample}/logs/{sample}_htseq.log"
+    params:
+        cluster="-q batch -N snakemake_htseq -l nodes=1:ppn=1,mem=5Gb",
+        htseq_path=config["htseq"]["HTSEQ_BIN_DIR"],
+        stranded=config["htseq"]["STRANDED"],
+        gtf_file=config["htseq"]["GTF_FILE"],
+        samType=config["htseq"]["SAM_TYPE"],
+        order=config["htseq"]["ORDER"],
+        output_path=config["general_path"]["OUTPUT_PATH"]
+    shell:
+        "{params.htseq_path}htseq-count -q -f {params.samType} -r {params.order} -s {params.stranded} {input} {params.gtf_file} > {output} 2> {log}"
+
+
+
