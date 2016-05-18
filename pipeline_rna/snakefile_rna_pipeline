@@ -11,27 +11,19 @@ include: "../python_lib/util.py"
 
 if config["aligment"]["TOOL"] == "TOPHAT2":
     include: "../snakemake_rules/samtools_merge_rule"
-    if config["picard"]["MARKDUP"] != "yes":
-        include: "../snakemake_rules/tophat2_rule"
-    else:
-        include: "../snakemake_rules/tophat2_and_markdup_rule"
-        include: "../snakemake_rules/picard_markdup_rule"
+    include: "../snakemake_rules/tophat2_rule"
 
 if config["aligment"]["TOOL"] == "STAR":
     include: "../snakemake_rules/star_indexes_rule"
-#    include: "../snakemake_rules/samtools_sam_to_bam_rule"
     include: "../snakemake_rules/star_rule"
+    include: "../snakemake_rules/samtools_sort_rule"
 
-    if config["picard"]["MARKDUP"] != "yes":
-        include: "../snakemake_rules/samtools_sort_rule"
-    else:
-        include: "../snakemake_rules/samtools_sort_and_markdup_rule"
-        include: "../snakemake_rules/picard_markdup_rule"
-
+include: "../snakemake_rules/picard_markdup_rule"
+include: "../snakemake_rules/cuffquant_rule"
+include: "../snakemake_rules/cuffnorm_rule"
 include: "../snakemake_rules/fastqc_rule"
 include: "../snakemake_rules/samtools_index_rule"
 include: "../snakemake_rules/samtools_flagstat_rule"
-#include: "../snakemake_rules/samtools_bam_to_sam_rule"
 include: "../snakemake_rules/htseq_rule"
 include: "../snakemake_rules/gatk_rule"
 include: "../snakemake_rules/reformat_coverage_rule"
@@ -54,36 +46,21 @@ biosample_ids = biosamples.iloc[:,1]
 qc=expand((output_path+"/{sample}/{sample}.{group}_fastqc.zip", output_path+"/{sample}/{sample}.{group}_fastqc.html"), sample=sample_ids, group=config["group"])
 
 if config["aligment"]["TOOL"] == "TOPHAT2":
-    if config["picard"]["MARKDUP"] != "yes":
 
-        tophat2_align=expand((output_path+"/{sample}/{sample}.mapped.bam", output_path+"/{sample}/{sample}.unmapped.bam", output_path+"/{sample}/{sample}.deletions.bed", output_path+"/{sample}/{sample}.insertions.bed", output_path+"/{sample}/{sample}.junctions.bed"), sample=sample_ids)
-
-    else:
-
-        tophat2_align_and_markdup=expand((output_path+"/{sample}/{sample}.mapped.markdup.bam", output_path+"/{sample}/{sample}.unmapped.bam", output_path+"/{sample}/{sample}.deletions.bed", output_path+"/{sample}/{sample}.insertions.bed", output_path+"/{sample}/{sample}.junctions.bed"), sample=sample_ids)
-
-        markdup=expand((output_path+"/{sample}/{sample}.duplicates.bam", output_path+"/{sample}/{sample}.metrics", output_path+"/{sample}/{sample}.mapped.bam"), sample=sample_ids, group=config["group"])
-
-    merge=expand(output_path+"/{sample}/{sample}.bam", sample=sample_ids)
+    tophat2_align=expand((output_path+"/{sample}/{sample}.mapped.bam", output_path+"/{sample}/{sample}.unmapped.bam", output_path+"/{sample}/{sample}.deletions.bed", output_path+"/{sample}/{sample}.insertions.bed", output_path+"/{sample}/{sample}.junctions.bed"), sample=sample_ids)
 
 if config["aligment"]["TOOL"] == "STAR":
     star_indexes=expand(("{annotation_path}/chrLength.txt", "{annotation_path}/chrName.txt", "{annotation_path}/chrStart.txt", "{annotation_path}/Genome", "{annotation_path}/genomeParameters.txt", "{annotation_path}/SA", "{annotation_path}/SAindex"), annotation_path=config["star"]["GENOME_DIR"])
 
     star_align=expand((output_path+"/{sample}/{sample}.bam", output_path+"/{sample}/{sample}_ReadsPerGene.out.tab", output_path+"/{sample}/{sample}_SJ.out.tab"), sample=sample_ids)
 #    bam_file=expand(output_path+"/{sample}/{sample}.tmp.bam", sample=sample_ids)
-
-    if config["picard"]["MARKDUP"] != "yes":
-
-        sort_bam_file=expand(output_path+"/{sample}/{sample}.mapped.bam", sample=sample_ids)
-
-    else:
-
-        sort_bam_file=expand(output_path+"/{sample}/{sample}.mapped.markdup.bam", sample=sample_ids)
-        markdup=expand((output_path+"/{sample}/{sample}.duplicates.bam", output_path+"/{sample}/{sample}.metrics", output_path+"/{sample}/{sample}.mapped.bam"), sample=sample_ids, group=config["group"])
+    sort_bam_file=expand(output_path+"/{sample}/{sample}.mapped.bam", sample=sample_ids)
 
 #sam_file=expand(output_path+"/{sample}/{sample}.sam", sample=sample_ids)
-
+markdup=expand((output_path+"/{sample}/{sample}.duplicates.bam", output_path+"/{sample}/{sample}.metrics"), sample=sample_ids)
 htseq=expand(output_path+"/{sample}/{sample}-{biosample}.htseq", zip, sample=sample_ids, biosample=biosample_ids)
+cuffquant=expand(output_path+"/{sample}/{sample}-{biosample}.abundances.cxb", zip, sample=sample_ids, biosample=biosample_ids)
+cuffnorm=expand((output_path+"/{sample}/{sample}-{biosample}.genes.fpkm_table", output_path+"/{sample}/{sample}-{biosample}.isoforms.fpkm_table"), zip, sample=sample_ids, biosample=biosample_ids)
 
 index=expand(output_path+"/{sample}/{sample}.bam.bai", sample=sample_ids)
 
@@ -99,7 +76,7 @@ curie_report=expand(output_path+"/{sample}/{sample}-{biosample}-NGS-RunReport.pd
 
 rule all:
     input:
-#        star_indexes,
+        star_indexes,
 #        trimming,
 #        qc,
 #        tophat2_align,
@@ -117,7 +94,10 @@ rule all:
 #        curie_report,
 #        graph,
 #        report
-        config["general_path"]["OUTPUT_PATH"]+"/report.html"
+#        markdup,
+#        cuffquant,
+#        cuffnorm,
+#        config["general_path"]["OUTPUT_PATH"]+"/report.html"
     params:
         cluster="-q batch -N snakemake_rna_pipeline -l nodes=1:ppn=1,mem=1Gb",
         input_path=config["general_path"]["INPUT_PATH"]

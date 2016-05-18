@@ -1,7 +1,7 @@
 rule tophat2:
     input:
-        i1="{output_path}/{sample}/{sample}.R1.fastq.gz",
-        i2="{output_path}/{sample}/{sample}.R2.fastq.gz"
+        i1="{sample}/{sample}.R1.fastq.gz",
+        i2="{sample}/{sample}.R2.fastq.gz"
     output:
         o1="{output_path}/{sample}/{sample}.mapped.bam",
         o2="{output_path}/{sample}/{sample}.unmapped.bam",

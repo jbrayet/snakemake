@@ -12,7 +12,7 @@ group:
 
 general_path:
     INPUT_PATH: "/data/tmp/TEST_SNAKEMAKE"
-    OUTPUT_PATH: "/data/tmp/TEST_SNAKEMAKE/results_star_htseq"
+    OUTPUT_PATH: "/data/tmp/TEST_SNAKEMAKE/htseq_pos"
     RULE_PATH: "/bioinfo/users/jbrayet/Bureau/snakemake/snakemake_rules"
     SCRIPT_PATH: "/bioinfo/users/jbrayet/snakemake/alban_scripts/"
 
@@ -46,18 +46,29 @@ htseq:
     HTSEQ_BIN_DIR: "~/miniconda3/envs/py27/bin/"
     STRANDED: "'no'"
     SAM_TYPE: "bam"
-    ORDER: "name"
+    ORDER: "pos"
     GTF_FILE: "/data/tmp/TEST_SNAKEMAKE/refFlat.gtf"
+
+cuffquant:
+    CUFFQUANT_BIN_DIR: "/bioinfo/local/build/cufflinks-2.2.1.Linux_x86_64/"
+    LIBRARY_TYPE: "fr-firststrand"
+    NUM_THREADS: "6"
+    GTF_FILE: "/data/annotations/Galaxy/RefGene/mm10/mm10_refGene.gtf"
+#    GTF_FILE: "/bioinfo/users/jbrayet/Bureau/x-rays.1.0beta/index/output/mm10_refGene_apr_07_2015/bowtie2/mm10_refGene_apr_07_2015.gtf"
+
+cuffnorm:
+    CUFFNORM_BIN_DIR: "/bioinfo/local/build/cufflinks-2.2.1.Linux_x86_64/"
+    LIBRARY_TYPE: "fr-firststrand"
+    NUM_THREADS: "6"
+    GTF_FILE: "/data/annotations/Galaxy/RefGene/mm10/mm10_refGene.gtf"
+#    GTF_FILE: "/bioinfo/users/jbrayet/Bureau/x-rays.1.0beta/index/output/mm10_refGene_apr_07_2015/bowtie2/mm10_refGene_apr_07_2015.gtf"
 
 star:
     STAR_BIN_DIR: "/bioinfo/local/build/STAR/STAR_2.5.0a/bin/Linux_x86_64/"
-    GENOME_FASTA_FILE: "/data/annotations/Mouse/mm10/complete/STAR_indexes/"
     RUN_THREADN: "8"
     OUT_SAM_TYPE: "BAM SortedByCoordinate"
     RUN_MODE: "alignReads"
-    GENOME_DIR: "/data/annotations/star_indexes/mm10"
-    SJDB_GTF_FILE: "/bioinfo/users/jbrayet/Bureau/starAnnotations/Mus_musculus.GRCm38.84.gtf"
-    SJDB_OVERHANG: "100"
+    GENOME_DIR: "/data/annotations/Mouse/mm10/complete/STAR_indexes"
     OUT_FILTER_MULTIMAP_NMAX: "1"
     OUT_READS_UNMAPPED: "Fastx"
     OUT_FILTER_MISMATCH_NMAX: "6"
@@ -65,6 +76,15 @@ star:
     QUANT_MODE: "GeneCounts"
     OUT_SAM_STRAND_FIELD: "intronMotif"
     LB: "Illumina"
+
+star_indexes:
+    STAR_BIN_DIR: "/bioinfo/local/build/STAR/STAR_2.5.0a/bin/Linux_x86_64/"
+    GENOME_DIR: "/data/annotations/Mouse/mm10/complete/STAR_indexes"
+    RUN_THREADN: "8"
+    RUN_MODE: "genomeGenerate"
+    GENOME_FASTA_FILE: "/data/annotations/Galaxy/Mouse/mm10/bowtie2/mm10.fa"
+    SJDB_GTF_FILE: "/data/tmp/TEST_SNAKEMAKE/refFlat.gtf"
+    SJDB_OVERHANG: "99"
 
 gatk:
     GATK_BIN_DIR: "/bioinfo/local/build/GATK/GenomeAnalysisTK-2.2-16-g9f648cb/"
@@ -78,7 +98,6 @@ samtools:
     FASTA_REFERENCE: "/data/annotations/Galaxy/Mouse/mm10/bowtie2/mm10.fa"
 
 picard:
-    MARKDUP: "no"
     PICARD_TOOLS_BIN_DIR: "~/miniconda3/envs/pipeline_rna_2/bin/"
 
 bedtools:

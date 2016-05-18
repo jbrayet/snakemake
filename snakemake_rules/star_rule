@@ -24,6 +24,6 @@ rule star:
         output_path=config["general_path"]["OUTPUT_PATH"],
         lb=config["star"]["LB"]
     run:
-        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outSAMtype {params.outSAMtype} --outSAMattrRGline ID:{wildcards.sample} SM:{wildcards.sample} LB:{params.lb} --runMode {params.runMode} --outReadsUnmapped {params.outReadsUnmapped} --outFileNamePrefix {params.output_path}/{wildcards.sample}/{wildcards.sample}_ --outFilterMismatchNmax {params.outFilterMismatchNmax} --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
+        shell("{params.star_bin_dir}STAR --runThreadN {params.runThreadN} --genomeDir {params.genomeDir} --readFilesIn {input.i1} {input.i2} --outSAMtype {params.outSAMtype} --outSAMattrRGline ID:{wildcards.sample} SM:{wildcards.sample} LB:{params.lb} PL:{params.lb} --runMode {params.runMode} --outReadsUnmapped {params.outReadsUnmapped} --outFileNamePrefix {params.output_path}/{wildcards.sample}/{wildcards.sample}_ --outFilterMismatchNmax {params.outFilterMismatchNmax} --outFilterMultimapNmax {params.outFilterMultimapNmax} --readFilesCommand {params.readFilesCommand} --quantMode {params.quantMode} 2> {log}")
         shell("rm -rf {params.output_path}/{wildcards.sample}/{wildcards.sample}__STARtmp 2> {log}")
         shell("mv -f {params.output_path}/{wildcards.sample}/{wildcards.sample}_Aligned.sortedByCoord.out.bam {output.o1} 2> {log}")
